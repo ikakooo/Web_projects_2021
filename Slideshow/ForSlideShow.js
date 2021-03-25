@@ -37,22 +37,7 @@
 //   }
 // });
 var slideIndex = 1;
-
-testWait()
-startTimer ()
-
-function startTimer () {
-  timer.start();
-  setTimeout(showSlides(slideIndex),500);
-  timer.stop();
-}
-
-async function testWait() {
-  await wait(5000);
-  
-  showSlides(slideIndex);
-}
-
+showSlides(slideIndex);
 
 
 // Next/previous controls

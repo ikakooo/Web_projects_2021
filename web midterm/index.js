@@ -75,7 +75,10 @@ function doubleAll(numbers) {
 
 console.log(doubleAll(data3))
 
-
+let html='div><p>texzr</p></div>';
+let content=document.querySelector('#content');
+console.log(content);
+content.innerHTML=html;
 /// task 5
 
 
@@ -105,3 +108,5 @@ const updateValue = (e) => {
     })
 }
 input.oninput = updateValue;
+
+

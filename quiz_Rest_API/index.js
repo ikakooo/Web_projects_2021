@@ -1,5 +1,6 @@
 
-
+var isSearchingURL = ""
+var page = 1
 
 //// For categories panel ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +37,7 @@ xhttp.onreadystatechange = function () {
                     var obj = JSON.parse(data);
 
                     $("#rowID").empty();
-
+                    page = 0
                     addItemsInList(obj.data)
 
                 })
@@ -68,11 +69,12 @@ function sendCategorizedRequest(id, fn) {
             // Typical action to be performed when the document is ready:
             var response = categorisedxhttp.responseText;
             fn(response);
+            page = 0;
             //console.log("ok" + response);
         }
     };
-
-    categorisedxhttp.open("GET", "https://gorest.co.in/public-api/products?categories[]=" + id, true);
+    isSearchingURL = "https://gorest.co.in/public-api/products?categories[]=" + id
+    categorisedxhttp.open("GET", isSearchingURL, true);
     categorisedxhttp.send();
 }
 
@@ -102,12 +104,12 @@ const updateValue = (e) => {
         if (this.readyState == 4 && this.status == 200) {
             // Typical action to be performed when the document is ready:
             var response = searchedxhttp.responseText;
-            
+
             ///console.log("ok" + response);
 
 
             var obj = JSON.parse(response);
-
+            page = 0;
             $("#rowID").empty();
 
             addItemsInList(obj.data)
@@ -116,7 +118,9 @@ const updateValue = (e) => {
         }
     };
 
-    searchedxhttp.open("GET", "https://gorest.co.in/public-api/products?name=" + e.target.value, true);
+
+    isSearchingURL = "https://gorest.co.in/public-api/products?name=" + e.target.value
+    searchedxhttp.open("GET", isSearchingURL, true);
     searchedxhttp.send();
 }
 input.oninput = updateValue;
@@ -125,7 +129,7 @@ input.oninput = updateValue;
 
 //////     Aditional functions ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function addItemsInList(itemsArray){
+function addItemsInList(itemsArray) {
     itemsArray.forEach(element => {
         $(".row").append(
             `<div class="column" id="column" style="background-color:#ccc;">
@@ -134,4 +138,74 @@ function addItemsInList(itemsArray){
           </div>`
         );
     });
+}
+
+
+
+
+
+function URLPageLoad(pageURL){
+
+    var nextpageloadrequest = new XMLHttpRequest();
+    nextpageloadrequest.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // Typical action to be performed when the document is ready:
+            var response = nextpageloadrequest.responseText;
+
+            ///console.log("ok" + response);
+
+
+            var obj = JSON.parse(response);
+            page = 0;
+            $("#rowID").empty();
+
+            addItemsInList(obj.data)
+
+
+        }
+    };
+
+
+   
+    nextpageloadrequest.open("GET", pageURL, true);
+    nextpageloadrequest.send();
+
+}
+
+
+
+
+
+function nextpageload(pageQuery) {
+
+   
+        var rebuildedURL = ""
+
+        if (isSearchingURL.includes("?page=")) {
+            page++
+
+            rebuildedURL = isSearchingURL.replace("?page=", "?page=" + page );
+            
+        } else {
+            page++
+            isSearchingURL.split('').forEach(element => {
+
+                if (element == "?") {
+
+                    rebuildedURL = rebuildedURL + "?page=" + page +"&"
+                }
+                rebuildedURL = rebuildedURL + element
+            });
+             
+        }
+    
+    URLPageLoad(rebuildedURL)
+    console.log(rebuildedURL);
+}
+
+function backpageload() {
+
+
+
+
 }

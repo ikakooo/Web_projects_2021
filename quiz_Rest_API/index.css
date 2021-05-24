@@ -32,3 +32,29 @@
     background-color: #666;
     color: white;
   }
+
+
+  .container { 
+    height: 100px;
+    position: relative;
+   
+  }
+  
+  .rightButton {
+    border: 3px solid green; 
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  .leftButton {
+    border: 3px solid green; 
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }

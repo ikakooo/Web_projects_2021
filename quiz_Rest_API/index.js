@@ -1,10 +1,8 @@
 
 
 
-
-
-
-
+//// For categories panel ////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -22,9 +20,6 @@ xhttp.onreadystatechange = function () {
             obj.data.forEach(element => {
 
 
-
-
-
                 $(".multiplication-table").append(
                     '<p id="' + element.id + '" chemiatributi="" href="tryit.asp?filename=tryjson_ajax_array" target="_blank">' + element.name + '</p>'
                 );
@@ -37,28 +32,12 @@ xhttp.onreadystatechange = function () {
 
 
                 sendCategorizedRequest(this.id, function (data) {
-                    console.log("ikakooo" + data);
+                    // console.log("ikakooo" + data);
                     var obj = JSON.parse(data);
-                    // clearListBox()
-                    // function clearListBox() {
-                    //     document.getElementsByClassName("column").innerHTML = " ";
-                    // }
-
-                    // var div = document.getElementsByClassName("column");
-                    // while (div.firstChild) {
-                    //     div.removeChild(div.firstChild);
-                    // }
 
                     $("#rowID").empty();
 
-                    obj.data.forEach(element => {
-                        $(".row").append(
-                            `<div class="column" id="column" style="background-color:#ccc;">
-           
-                            <p>${element.name}</p>
-                          </div>`
-                        );
-                    });
+                    addItemsInList(obj.data)
 
                 })
 
@@ -78,6 +57,9 @@ xhttp.send();
 
 
 
+//// For categoriezed items search ////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 function sendCategorizedRequest(id, fn) {
 
     var categorisedxhttp = new XMLHttpRequest();
@@ -86,7 +68,7 @@ function sendCategorizedRequest(id, fn) {
             // Typical action to be performed when the document is ready:
             var response = categorisedxhttp.responseText;
             fn(response);
-            console.log("ok" + response);
+            //console.log("ok" + response);
         }
     };
 
@@ -106,4 +88,50 @@ function listView() {
 }
 
 
+//// For Search panel ////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+const input = document.getElementById('inputID');
+const log = document.getElementById('value-log');
+const updateValue = (e) => {
+    //log.textContent = e.target.value;
 
+
+
+    var searchedxhttp = new XMLHttpRequest();
+    searchedxhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            // Typical action to be performed when the document is ready:
+            var response = searchedxhttp.responseText;
+            
+            ///console.log("ok" + response);
+
+
+            var obj = JSON.parse(response);
+
+            $("#rowID").empty();
+
+            addItemsInList(obj.data)
+
+
+        }
+    };
+
+    searchedxhttp.open("GET", "https://gorest.co.in/public-api/products?name=" + e.target.value, true);
+    searchedxhttp.send();
+}
+input.oninput = updateValue;
+
+
+
+//////     Aditional functions ////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function addItemsInList(itemsArray){
+    itemsArray.forEach(element => {
+        $(".row").append(
+            `<div class="column" id="column" style="background-color:#ccc;">
+
+            <p>${element.name}</p>
+          </div>`
+        );
+    });
+}

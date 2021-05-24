@@ -26,20 +26,42 @@ xhttp.onreadystatechange = function () {
 
 
                 $(".multiplication-table").append(
-                    '<p id="'+element.id+'" chemiatributi="" href="tryit.asp?filename=tryjson_ajax_array" target="_blank">' + element.name + '</p>'
+                    '<p id="' + element.id + '" chemiatributi="" href="tryit.asp?filename=tryjson_ajax_array" target="_blank">' + element.name + '</p>'
                 );
 
-                
+
 
             });
 
-            $(".multiplication-table p").on( "click", function () {
+            $(".multiplication-table p").on("click", function () {
 
-                
-                sendCategorizedRequest(this.id, function(data){
-                    console.log(data);
+
+                sendCategorizedRequest(this.id, function (data) {
+                    console.log("ikakooo" + data);
+                    var obj = JSON.parse(data);
+                    // clearListBox()
+                    // function clearListBox() {
+                    //     document.getElementsByClassName("column").innerHTML = " ";
+                    // }
+
+                    // var div = document.getElementsByClassName("column");
+                    // while (div.firstChild) {
+                    //     div.removeChild(div.firstChild);
+                    // }
+
+                    $("#rowID").empty();
+
+                    obj.data.forEach(element => {
+                        $(".row").append(
+                            `<div class="column" id="column" style="background-color:#ccc;">
+           
+                            <p>${element.name}</p>
+                          </div>`
+                        );
+                    });
+
                 })
-                
+
             })
 
         })
@@ -56,7 +78,7 @@ xhttp.send();
 
 
 
-function sendCategorizedRequest(id,fn){
+function sendCategorizedRequest(id, fn) {
 
     var categorisedxhttp = new XMLHttpRequest();
     categorisedxhttp.onreadystatechange = function () {
@@ -67,7 +89,21 @@ function sendCategorizedRequest(id,fn){
             console.log("ok" + response);
         }
     };
-  
-    categorisedxhttp.open("GET", "https://gorest.co.in/public-api/products?categories[]=" + id , true);
+
+    categorisedxhttp.open("GET", "https://gorest.co.in/public-api/products?categories[]=" + id, true);
     categorisedxhttp.send();
 }
+
+var elements = document.getElementsByClassName("column");
+var i;
+
+listView()
+
+function listView() {
+    for (i = 0; i < elements.length; i++) {
+        elements[i].style.width = "100%";
+    }
+}
+
+
+

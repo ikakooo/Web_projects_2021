@@ -2,6 +2,7 @@
 var isSearchingURL = ""
 var page = 1
 
+
 //// For categories panel ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 var xhttp = new XMLHttpRequest();
@@ -37,7 +38,7 @@ xhttp.onreadystatechange = function () {
                     var obj = JSON.parse(data);
 
                     $("#rowID").empty();
-                    page = 0
+                    page = 1;
                     addItemsInList(obj.data)
 
                 })
@@ -69,7 +70,7 @@ function sendCategorizedRequest(id, fn) {
             // Typical action to be performed when the document is ready:
             var response = categorisedxhttp.responseText;
             fn(response);
-            page = 0;
+            page = 1;
             //console.log("ok" + response);
         }
     };
@@ -152,14 +153,21 @@ function URLPageLoad(pageURL){
             // Typical action to be performed when the document is ready:
             var response = nextpageloadrequest.responseText;
 
-            ///console.log("ok" + response);
+            //console.log("ok" + response);
 
 
             var obj = JSON.parse(response);
-            page = 0;
-            $("#rowID").empty();
+            console.log(obj.meta.pagination.pages +" sdf " + page)
 
-            addItemsInList(obj.data)
+       if(obj.meta.pagination.pages>=page && page >= 0){
+
+        $("#rowID").empty();
+
+        addItemsInList(obj.data)
+
+       }
+
+
 
 
         }
@@ -176,21 +184,22 @@ function URLPageLoad(pageURL){
 
 
 
-function nextpageload(pageQuery) {
+function nextpageload() {
 
    
-        var rebuildedURL = ""
+    var rebuildedURL = ""
 
         if (isSearchingURL.includes("?page=")) {
-            page++
+            page=page+1
 
             rebuildedURL = isSearchingURL.replace("?page=", "?page=" + page );
             
         } else {
-            page++
+            
             isSearchingURL.split('').forEach(element => {
 
                 if (element == "?") {
+                    page=page+1
 
                     rebuildedURL = rebuildedURL + "?page=" + page +"&"
                 }
@@ -204,8 +213,29 @@ function nextpageload(pageQuery) {
 }
 
 function backpageload() {
+    var rebuildedURL = ""
 
+    if (isSearchingURL.includes("?page=")) {
+        page=page-1
 
+        rebuildedURL = isSearchingURL.replace("?page=", "?page=" + page );
+        
+    } else {
+        
+        isSearchingURL.split('').forEach(element => {
+
+            if (element == "?") {
+                page=page-1
+
+                rebuildedURL = rebuildedURL + "?page=" + page +"&"
+            }
+            rebuildedURL = rebuildedURL + element
+        });
+         
+    }
+
+URLPageLoad(rebuildedURL)
+console.log(rebuildedURL);
 
 
 }

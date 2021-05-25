@@ -23,7 +23,7 @@ xhttp.onreadystatechange = function () {
 
 
                 $(".multiplication-table").append(
-                    '<p id="' + element.id + '" chemiatributi="" href="tryit.asp?filename=tryjson_ajax_array" target="_blank">' + element.name + '</p>'
+                    '<li><p id="' + element.id + '" chemiatributi="" href="tryit.asp?filename=tryjson_ajax_array" target="_blank">' + element.name + '</p></li>'
                 );
 
 

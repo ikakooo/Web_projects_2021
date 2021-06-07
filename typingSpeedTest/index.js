@@ -2,6 +2,7 @@ const testItemsShow = document.getElementById("textDisplay");
 const inputItem = document.getElementById("textInput");
 const time = document.getElementById("time");
 
+inputItem.disabled = false;
 
 
 inputItem.addEventListener('input', function(event){
@@ -13,10 +14,13 @@ inputItem.addEventListener('input', function(event){
     
 
 
+
   });
 
+  
+  timeStart();
   function timeStart(){
-    limitInvisible();
+    //limitInvisible();
     seconds = setInterval(function() {
       time.innerText--;
       if (time.innerText == "-1") {

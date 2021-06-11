@@ -15,7 +15,19 @@ body{
     text-align: left;
     min-height: 200px;
   }
-
+  .yellow{
+    color: #ffd369;
+  }
+  .correct{
+    color: #29bb89;
+  }
+  .wrong{
+    color: #e84545;
+    text-decoration: underline;
+  }
+  .current{
+    color: #eeeeee;
+  }
 
   .center{
     text-align: center;

@@ -1,7 +1,11 @@
 const testItemsShow = document.getElementById("textDisplay");
 const inputItem = document.getElementById("textInput");
 const time = document.getElementById("time");
+const cword = document.getElementById("cword");
 var  flag = 0;
+var wordNo = 1;
+var wordsSubmitted = 0;
+var wordsCorrect = 0;
 
 inputItem.disabled = false;
 
@@ -14,9 +18,70 @@ inputItem.addEventListener('input', function (event) {
   var charEntered = event.data;
 console.log(charEntered)
 
+if(/\s/g.test(charEntered)){  //check if entered space
+  checkWord();
+}
+else{
+  currentTyipingWord();
+}
+
 });
 
 
+function checkWord(){
+  const wordEntered = inputItem.value;
+  inputItem.value='';
+
+  const wordID = "word "+wordNo;
+  const checkSpan = document.getElementById(wordID);
+  wordNo++;
+  wordsSubmitted++;
+
+  console.log(checkSpan.innerText)
+
+
+  if(checkSpan.innerText === wordEntered){
+    coloredSpan(wordID, "green");
+    wordsCorrect++;
+    cword.innerText=wordsCorrect;
+  }
+
+}
+
+function currentTyipingWord(){
+  const wordEntered = inputItem.value;
+  const currentID = "word "+wordNo;
+  const currentSpan = document.getElementById(currentID);
+  const curSpanWord = currentSpan.innerText;
+
+  if(wordEntered == curSpanWord.substring(0,wordEntered.length)){
+    coloredSpan(currentID, 'current');
+  }
+  else{
+    coloredSpan(currentID, 'dfvdf');
+  }
+
+}
+
+
+function coloredSpan(id, color){
+  const span = document.getElementById(id);
+  if(color === "green" ){
+    span.classList.remove('wrong');
+    span.classList.remove('current');
+    span.classList.add('correct');
+  }
+  else if(color ==='current'){
+    span.classList.remove('correct');
+    span.classList.remove('wrong');
+    span.classList.add('current');
+  }
+  else{
+    span.classList.remove('correct');
+    span.classList.remove('current');
+    span.classList.add('wrong');
+  }
+}
 
 function timeStart() {
   //limitInvisible();

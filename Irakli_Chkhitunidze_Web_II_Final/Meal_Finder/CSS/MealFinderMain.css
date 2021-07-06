@@ -1,0 +1,19 @@
+html{
+    background: #212121;
+  }
+
+
+#inputID{
+    font-size: 30px;
+   
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 50%;
+    margin-right: 50%;
+}
+
+
+#Random{
+    width:10%;
+    background-color:green;
+  }
